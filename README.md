@@ -207,7 +207,7 @@ FROM (
         - ![x](./db/answer3/execution_result.png)
     - 추가 인덱싱의 필요가 없고 기존의 인덱싱 활용
 
-**서울대병원에 다닌 20대 India 환자들을 병원에 머문 기간별로 집계 (covid.Stay)**
+**Answer 4) 서울대병원에 다닌 20대 India 환자들을 병원에 머문 기간별로 집계 (covid.Stay)**
 
 - 기존 실행 쿼리
     ``` sql 
@@ -230,28 +230,37 @@ FROM (
 - 개선 시간
     - n -> m : n% 개선
 
-**서울대병원에 다닌 30대 환자들을 운동 횟수별로 집계 (user.Exercise)**
+**Answer 5) 서울대병원에 다닌 30대 환자들을 운동 횟수별로 집계 (user.Exercise)**
 
 - 기존 실행 쿼리
     ``` sql 
-    
+    SELECT p.exercise        AS '운동 횟수',
+           COUNT(p.exercise) AS '환자의 수'
+    FROM covid c
+             INNER JOIN hospital h ON c.hospital_id = h.id
+             INNER JOIN member m ON c.member_id = m.id
+             INNER JOIN programmer p ON c.programmer_id = p.id
+    WHERE h.name = '서울대병원'
+      AND m.age BETWEEN 30 AND 39
+    GROUP BY p.exercise;
     ```
     - 실행 계획
-        - ![x]()
+        - ![x](db/answer5/before_explain.png)
     - 실행 결과
-        - 실행 시간 :
-        - ![x]()
+        - 실행 시간 : 72.969 sec
+        - ![x](db/answer5/before_execution_result.png)
 - 인덱싱 추가
     - ``` sql 
-      
+      ALTER TABLE member ADD PRIMARY KEY (id);
+      CREATE INDEX idx__hospital_name ON hospital (name);
       ```
     - 실행 계획
-        - ![x]()
+        - ![x](db/answer5/after_indexing_explain.png)
     - 실행 결과
         - 실행 시간 :
-        - ![x]()
+        - ![x](db/answer5/after_execution_result.png)
 - 개선 시간
-    - n -> m : n% 개선
+    - 72.969 sec -> 0.267 sec : 99.63% 개선
 
 ---
 
