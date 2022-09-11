@@ -112,28 +112,37 @@ FROM (
 
 1. 인덱스 적용해보기 실습을 진행해본 과정을 공유해주세요
 
-**Coding as a Hobby 와 같은 결과를 반환**
+**Environment**
+
+- "M1 MacBook Pro"
+- "MySQL Workbench"
+
+**Answer 1) Coding as a Hobby 와 같은 결과를 반환**
 
 - 기존 실행 쿼리
     ``` sql 
-    
+    SELECT p.hobby                                                                           AS 'answer',
+           CONCAT(ROUND((COUNT(p.hobby) / (SELECT COUNT(1) FROM programmer)) * 100, 1), '%') AS 'ratio'
+    FROM subway.programmer p
+    GROUP BY p.hobby
+    ORDER BY p.hobby DESC;
     ```
-    - 실행계획
-        - ![]()
-    - 실행결과
-        - 실행 시간 :
-        - ![]()
+    - 실행 계획
+        - ![x](./db/answer1/before_explain.png)
+    - 실행 결과
+        - 실행 시간 : 4.177 sec
+        - ![x](./db/answer1/before_execution_result.png)
 - 인덱싱 추가
-    - ``` sql 
-      
-      ```
-    - 실행계획
-        - ![]()
-    - 실행결과
+    ``` sql 
+    create index idx__programmer_hobby on programmer (hobby);
+    ```
+    - 실행 계획
+        - ![x](./db/answer1/after_indexing_explain.png)
+    - 실행 결과
         - 실행 시간 :
-        - ![]()
-- 개선시간
-    - n -> m : n% 개선
+        - ![x](./db/answer1/after_execution_result.png)
+- 개선 시간
+    - 4.177sec -> 0.460sec : 89% 개선
 
 **프로그래머별로 해당하는 병원 이름을 반환 (covid.id, hospital.name)**
 
@@ -141,21 +150,21 @@ FROM (
     ``` sql 
     
     ```
-    - 실행계획
+    - 실행 계획
         - ![]()
-    - 실행결과
+    - 실행 결과
         - 실행 시간 :
         - ![]()
 - 인덱싱 추가
     - ``` sql 
       
       ```
-    - 실행계획
+    - 실행 계획
         - ![]()
-    - 실행결과
+    - 실행 결과
         - 실행 시간 :
         - ![]()
-- 개선시간
+- 개선 시간
     - n -> m : n% 개선
 
 **프로그래밍이 취미인 학생 혹은 주니어(0-2년)들이 다닌 병원 이름을 반환하고 user.id 기준으로 정렬
@@ -163,23 +172,23 @@ FROM (
 
 - 기존 실행 쿼리
     ``` sql 
-    
+
     ```
-    - 실행계획
+    - 실행 계획
         - ![]()
-    - 실행결과
+    - 실행 결과
         - 실행 시간 :
         - ![]()
 - 인덱싱 추가
     - ``` sql 
       
       ```
-    - 실행계획
+    - 실행 계획
         - ![]()
-    - 실행결과
+    - 실행 결과
         - 실행 시간 :
         - ![]()
-- 개선시간
+- 개선 시간
     - n -> m : n% 개선
 
 **서울대병원에 다닌 20대 India 환자들을 병원에 머문 기간별로 집계 (covid.Stay)**
@@ -188,21 +197,21 @@ FROM (
     ``` sql 
     
     ```
-    - 실행계획
+    - 실행 계획
         - ![]()
-    - 실행결과
+    - 실행 결과
         - 실행 시간 :
         - ![]()
 - 인덱싱 추가
     - ``` sql 
       
       ```
-    - 실행계획
+    - 실행 계획
         - ![]()
-    - 실행결과
+    - 실행 결과
         - 실행 시간 :
         - ![]()
-- 개선시간
+- 개선 시간
     - n -> m : n% 개선
 
 **서울대병원에 다닌 30대 환자들을 운동 횟수별로 집계 (user.Exercise)**
@@ -211,21 +220,21 @@ FROM (
     ``` sql 
     
     ```
-    - 실행계획
+    - 실행 계획
         - ![]()
-    - 실행결과
+    - 실행 결과
         - 실행 시간 :
         - ![]()
 - 인덱싱 추가
     - ``` sql 
       
       ```
-    - 실행계획
+    - 실행 계획
         - ![]()
-    - 실행결과
+    - 실행 결과
         - 실행 시간 :
         - ![]()
-- 개선시간
+- 개선 시간
     - n -> m : n% 개선
 
 ---
