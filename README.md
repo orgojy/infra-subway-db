@@ -177,29 +177,35 @@ FROM (
 - 개선 시간
     - 3.974 sec -> 0.037 sec : 99% 개선
 
-**프로그래밍이 취미인 학생 혹은 주니어(0-2년)들이 다닌 병원 이름을 반환하고 user.id 기준으로 정렬
+**Answer 3) 프로그래밍이 취미인 학생 혹은 주니어(0-2년)들이 다닌 병원 이름을 반환하고 user.id 기준으로 정렬
 (covid.id, hospital.name, user.Hobby, user.DevType, user.YearsCoding)**
 
 - 기존 실행 쿼리
     ``` sql 
-
+    SELECT c.id           AS covid_id,
+           h.name         AS hospital_name,
+           p.hobby        AS hobby,
+           p.dev_type     AS dev_type,
+           p.years_coding AS years_coding
+    FROM (
+             SELECT sp.id,
+             sp.hobby,
+             sp.dev_type,
+             sp.years_coding
+             FROM programmer sp
+             WHERE sp.hobby = 'Yes'
+             AND (sp.dev_type = 'Student' OR sp.years_coding = '0-2 years')
+         ) AS p
+             INNER JOIN covid c ON c.programmer_id = p.id
+             INNER JOIN hospital h ON c.hospital_id = h.id
+    ORDER BY p.id;
     ```
     - 실행 계획
-        - ![x]()
+        - ![x](./db/answer3/explain.png)
     - 실행 결과
-        - 실행 시간 :
-        - ![x]()
-- 인덱싱 추가
-    - ``` sql 
-      
-      ```
-    - 실행 계획
-        - ![x]()
-    - 실행 결과
-        - 실행 시간 :
-        - ![x]()
-- 개선 시간
-    - n -> m : n% 개선
+        - 실행 시간 : 0.092 sec
+        - ![x](./db/answer3/execution_result.png)
+    - 추가 인덱싱의 필요가 없고 기존의 인덱싱 활용
 
 **서울대병원에 다닌 20대 India 환자들을 병원에 머문 기간별로 집계 (covid.Stay)**
 
