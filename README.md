@@ -142,30 +142,40 @@ FROM (
         - 실행 시간 :
         - ![x](./db/answer1/after_execution_result.png)
 - 개선 시간
-    - 4.177sec -> 0.460sec : 89% 개선
+    - 4.177 sec -> 0.460 sec : 89% 개선
 
-**프로그래머별로 해당하는 병원 이름을 반환 (covid.id, hospital.name)**
+**Answer 2) 프로그래머별로 해당하는 병원 이름을 반환 (covid.id, hospital.name)**
 
 - 기존 실행 쿼리
     ``` sql 
-    
+    SELECT c.id   AS covid_id,
+           h.name AS hospital_name
+    FROM covid c
+             INNER JOIN programmer p ON c.programmer_id = p.id
+             INNER JOIN hospital h ON c.hospital_id = h.id;    
     ```
     - 실행 계획
-        - ![]()
+        - ![x](./db/answer2/before_explain.png)
     - 실행 결과
-        - 실행 시간 :
-        - ![]()
+        - 실행 시간 : 3.974 sec
+        - ![x](./db/answer2/before_execution_result.png)
 - 인덱싱 추가
     - ``` sql 
-      
+      ALTER TABLE covid ADD PRIMARY KEY(id);
+      ALTER TABLE programmer ADD PRIMARY KEY(id);
+      ALTER TABLE hospital ADD PRIMARY KEY(id);
+
+      CREATE INDEX idx__covid_programmer_id ON covid (programmer_id);
+      -- 대상 데이블의 카디널리티가 작기에 Full Index Scan 이 적용되어 이후에 적용해도 될 인덱싱 
+      -- CREATE INDEX idx__covid_hospital_id ON covid (hospital_id);
       ```
     - 실행 계획
-        - ![]()
+        - ![x](./db/answer2/after_indexing_explain.png)
     - 실행 결과
-        - 실행 시간 :
-        - ![]()
+        - 실행 시간 : 0.037 sec
+        - ![x](./db/answer2/after_execution_result.png)
 - 개선 시간
-    - n -> m : n% 개선
+    - 3.974 sec -> 0.037 sec : 99% 개선
 
 **프로그래밍이 취미인 학생 혹은 주니어(0-2년)들이 다닌 병원 이름을 반환하고 user.id 기준으로 정렬
 (covid.id, hospital.name, user.Hobby, user.DevType, user.YearsCoding)**
@@ -175,19 +185,19 @@ FROM (
 
     ```
     - 실행 계획
-        - ![]()
+        - ![x]()
     - 실행 결과
         - 실행 시간 :
-        - ![]()
+        - ![x]()
 - 인덱싱 추가
     - ``` sql 
       
       ```
     - 실행 계획
-        - ![]()
+        - ![x]()
     - 실행 결과
         - 실행 시간 :
-        - ![]()
+        - ![x]()
 - 개선 시간
     - n -> m : n% 개선
 
@@ -198,19 +208,19 @@ FROM (
     
     ```
     - 실행 계획
-        - ![]()
+        - ![x]()
     - 실행 결과
         - 실행 시간 :
-        - ![]()
+        - ![x]()
 - 인덱싱 추가
     - ``` sql 
       
       ```
     - 실행 계획
-        - ![]()
+        - ![x]()
     - 실행 결과
         - 실행 시간 :
-        - ![]()
+        - ![x]()
 - 개선 시간
     - n -> m : n% 개선
 
@@ -221,19 +231,19 @@ FROM (
     
     ```
     - 실행 계획
-        - ![]()
+        - ![x]()
     - 실행 결과
         - 실행 시간 :
-        - ![]()
+        - ![x]()
 - 인덱싱 추가
     - ``` sql 
       
       ```
     - 실행 계획
-        - ![]()
+        - ![x]()
     - 실행 결과
         - 실행 시간 :
-        - ![]()
+        - ![x]()
 - 개선 시간
     - n -> m : n% 개선
 
