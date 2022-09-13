@@ -256,7 +256,7 @@ FROM (
     - 실행 계획
         - ![x](./db/answer5/after_indexing_explain.png)
     - 실행 결과
-        - 실행 시간 :
+        - 실행 시간 : 0.267 sec
         - ![x](./db/answer5/after_execution_result.png)
 - 개선 시간
     - 72.969 sec -> 0.267 sec : 99.63% 개선
