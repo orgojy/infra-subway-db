@@ -227,7 +227,7 @@ FROM (
     - 실행 결과
         - 실행 시간 : 0.235 sec
         - ![x](./db/answer4/execution_result.png)
-        - Answer 5)부터 수행하였고, 추가 인덱싱의 필요가 없고 기존의 인덱싱 활용
+        - Answer 5)부터 수행하였고, 추가 인덱싱의 필요가 없고 Answer 1),2),3)에 적용한 기존의 인덱싱 활용
 
 **Answer 5) 서울대병원에 다닌 30대 환자들을 운동 횟수별로 집계 (user.Exercise)**
 
