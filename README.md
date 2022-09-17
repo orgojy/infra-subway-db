@@ -167,7 +167,7 @@ FROM (
 
       CREATE INDEX idx__covid_programmer_id ON covid (programmer_id);
       -- 대상 데이블의 카디널리티가 작기에 Full Index Scan 이 적용되어 이후에 적용해도 될 인덱싱 
-      -- CREATE INDEX idx__covid_hospital_id ON covid (hospital_id);
+      CREATE INDEX idx__covid_hospital_id ON covid (hospital_id);
       ```
     - 실행 계획
         - ![x](./db/answer2/after_indexing_explain.png)
